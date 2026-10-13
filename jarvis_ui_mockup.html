@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS OS UI Mockup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        jarvis: {
+                            dark: '#0a0a0a',
+                            panel: 'rgba(15, 15, 15, 0.92)',
+                            accent: '#e0c278', 
+                            accentBg: 'rgba(224, 194, 120, 0.15)',
+                        }
+                    },
+                    animation: {
+                        'slide-down-panel': 'slideDownPanel 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up-panel': 'slideUpPanel 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'pop-in': 'popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        slideDownPanel: {
+                            '0%': { transform: 'translateX(-50%) translateY(-100%)', opacity: 0 },
+                            '100%': { transform: 'translateX(-50%) translateY(0)', opacity: 1 },
+                        },
+                        slideUpPanel: {
+                            '0%': { transform: 'translateX(-50%) translateY(0)', opacity: 1 },
+                            '100%': { transform: 'translateX(-50%) translateY(-100%)', opacity: 0 },
+                        },
+                        popIn: {
+                            '0%': { transform: 'scale(0.9) translateY(-10px)', opacity: 0 },
+                            '100%': { transform: 'scale(1) translateY(0)', opacity: 1 },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            overflow: hidden; 
+        }
+        
+        .os-background {
+            background: url('https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            transition: background-image 0.5s ease-in-out;
+        }
+
+        .glass-panel {
+            background: rgba(15, 15, 15, 0.94);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0,0,0,0.5);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body id="os-body" class="bg-gray-900 text-white h-screen w-screen os-background relative select-none" onclick="handleDesktopClick(event)">
+
+    <div class="absolute left-4 top-4 z-[100]" onclick="event.stopPropagation()">
+        <button onclick="toggleMockupMenu()" class="glass-panel w-12 h-12 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition shadow-[0_10px_20px_rgba(0,0,0,0.5)] cursor-pointer">
+            <i class="fa-solid fa-gamepad text-xl"></i>
+        </button>
+        
+        <div id="mockup-dropdown" class="hidden absolute left-0 top-16 glass-panel rounded-2xl p-4 w-64 border-l-4 border-l-jarvis-accent/50 shadow-2xl animate-pop-in">
+            <h3 class="text-xs uppercase tracking-wider text-gray-400 font-bold mb-3 flex items-center">
+                <i class="fa-solid fa-gamepad mr-2 text-jarvis-accent"></i> Mockup Triggers
+            </h3>
+            <div class="flex flex-col space-y-2">
+                <button onclick="toggleIslandState('collapsed')" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group cursor-pointer">
+                    <span class="text-gray-200">Compact Island</span>
+                    <span class="text-[10px] text-gray-500 bg-black/50 px-1.5 py-0.5 rounded group-hover:text-jarvis-accent">Hover</span>
+                </button>
+                <button onclick="toggleIslandState('context')" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group cursor-pointer">
+                    <span class="text-gray-200">Contextual Mode</span>
+                    <span class="text-[10px] text-gray-500 bg-black/50 px-1.5 py-0.5 rounded group-hover:text-jarvis-accent">Media</span>
+                </button>
+                <button onclick="toggleIslandState('expanded')" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group cursor-pointer">
+                    <span class="text-gray-200">Expanded Panel</span>
+                    <span class="text-[10px] text-gray-500 bg-black/50 px-1.5 py-0.5 rounded group-hover:text-jarvis-accent">Click</span>
+                </button>
+                <div class="h-px w-full bg-white/10 my-2"></div>
+                <button onclick="toggleUI('dictation')" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group cursor-pointer">
+                    <span class="text-gray-200">Dictation</span>
+                    <span class="text-[10px] text-gray-500 bg-black/50 px-1.5 py-0.5 rounded group-hover:text-teal-400">Ctrl+Win</span>
+                </button>
+                <button onclick="toggleUI('vision')" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group border border-teal-500/30 cursor-pointer">
+                    <span class="text-teal-400">Vision + Redact</span>
+                    <span class="text-[10px] text-teal-500 bg-black/50 px-1.5 py-0.5 rounded group-hover:text-teal-300">Ctrl+Shift</span>
+                </button>
+                <button onclick="toggleAIAssistant()" class="bg-white/5 hover:bg-white/10 rounded-lg p-2.5 text-sm text-left transition flex justify-between items-center group border border-jarvis-accent/30 cursor-pointer">
+                    <span class="text-jarvis-accent font-semibold">AI Assistant Chat</span>
+                    <span class="text-[10px] text-jarvis-accent bg-black/50 px-1.5 py-0.5 rounded">Ctrl+Space</span>
+                </button>
+                <button onclick="hideAll()" class="mt-2 text-xs text-gray-500 hover:text-white transition text-center py-2 w-full bg-black/30 rounded-lg cursor-pointer">Reset / Hide All</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="mini-island" class="absolute top-0 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center cursor-pointer group transition-transform duration-300" onclick="event.stopPropagation(); toggleExpandedPanel()">
+        <div class="glass-panel px-6 py-2.5 rounded-b-2xl shadow-[0_15px_30px_rgba(0,0,0,0.5)] border-t-0 flex items-center justify-center animate-float group-hover:bg-black/90 transition-colors">
+            <i class="fa-solid fa-ghost text-blue-300 text-2xl drop-shadow-[0_0_10px_rgba(147,197,253,0.8)]"></i>
+        </div>
+    </div>
+
+    <div id="context-popup" class="hidden absolute top-0 left-1/2 -translate-x-1/2 z-40 animate-slide-down-panel" onclick="event.stopPropagation()">
+        <div class="bg-[#0f0f0f]/95 backdrop-blur-2xl px-6 py-5 rounded-b-[32px] flex flex-col w-[380px] shadow-[0_20px_60px_rgba(0,0,0,0.9)] border-x border-b border-white/10">
+            <div class="flex items-center space-x-4 mb-5">
+                <div class="w-[60px] h-[60px] rounded-[14px] bg-gradient-to-br from-[#8b5b9c] to-[#d68c96] flex-shrink-0 shadow-inner"></div>
+                <div class="flex-1 min-w-0 flex flex-col justify-center">
+                    <h3 class="text-base font-bold text-white truncate leading-tight tracking-wide">lofi beats to study and relax</h3>
+                    <p class="text-[13px] text-gray-400 truncate mt-1 font-medium">lofi radio</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4 text-[11px] font-medium text-gray-400 font-mono mb-5">
+                <span>0:50</span>
+                <div class="flex-1 h-1 bg-white/20 rounded-full relative cursor-pointer group">
+                    <div class="absolute top-0 left-0 h-full w-[15%] bg-white rounded-full"></div>
+                    <div class="absolute top-1/2 -translate-y-1/2 left-[15%] w-1.5 h-3 bg-white rounded-sm shadow-sm opacity-90 group-hover:scale-125 transition-transform"></div>
+                </div>
+                <span>62:15</span>
+            </div>
+            <div class="flex items-center justify-center space-x-10 mb-3">
+                <button class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-backward-step text-lg"></i></button>
+                <button onclick="togglePopupMediaPlay(this)" class="text-white hover:scale-110 active:scale-95 transition cursor-pointer"><i class="fa-solid fa-pause text-2xl"></i></button>
+                <button class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-forward-step text-lg"></i></button>
+            </div>
+            <div class="w-full flex justify-center mt-2 cursor-pointer pt-1 pb-1" onclick="toggleIslandState('collapsed')">
+                <div class="w-10 h-1 bg-white/20 rounded-full hover:bg-white/50 transition"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="expanded-panel" class="hidden absolute top-0 left-1/2 -translate-x-1/2 w-[85%] max-w-[850px] glass-panel rounded-b-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-[60] flex-col pb-5 pt-3" onclick="event.stopPropagation()">
+        
+        <nav class="flex justify-center items-center space-x-4 py-2 text-xs font-semibold text-gray-400 tracking-wide relative">
+            <button onclick="switchTab('controls')" id="tab-controls" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Controls</button>
+            <button onclick="switchTab('today')" id="tab-today" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Today</button>
+            <button onclick="switchTab('stats')" id="tab-stats" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Stats</button>
+            <button onclick="switchTab('clipboard')" id="tab-clipboard" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Clipboard</button>
+            <button onclick="switchTab('apps')" id="tab-apps" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Apps</button>
+            <button onclick="switchTab('wallpaper')" id="tab-wallpaper" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Wallpaper</button>
+            <button onclick="switchTab('power')" id="tab-power" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Power</button>
+            
+            <div class="absolute right-5 text-gray-500 hover:text-white cursor-pointer bg-white/5 p-2 rounded-full transition hover:bg-white/10" title="Open folder">
+                <i class="fa-regular fa-folder-open"></i>
+            </div>
+        </nav>
+
+        <div class="mt-2 relative w-full h-[340px] overflow-hidden">
+            
+            <!-- 1. CONTROLS TAB -->
+            <div id="content-controls" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-8 overflow-y-auto hide-scrollbar pt-1 pb-4">
+                <div class="w-full max-w-[700px] flex flex-col gap-2.5">
+                    <div class="grid grid-cols-3 gap-3">
+                        <button onclick="toggleControl('wifi')" id="btn-wifi" class="bg-[#e0c278] text-[#2d2d2d] hover:brightness-110 p-3.5 rounded-2xl flex items-center justify-between transition cursor-pointer shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-wifi text-xl"></i>
+                                <div class="text-left"><p class="text-sm font-bold leading-tight">Wi-Fi</p><p class="text-[10px] opacity-80 status-text">Home 5G</p></div>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                        
+                        <button onclick="toggleControl('bluetooth')" id="btn-bluetooth" class="bg-white/5 hover:bg-white/10 text-white p-3.5 rounded-2xl border border-white/5 flex items-center justify-between transition cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-brands fa-bluetooth-b text-xl"></i>
+                                <div class="text-left"><p class="text-sm font-bold leading-tight">Bluetooth</p><p class="text-[10px] text-gray-400 status-text">Off</p></div>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                        
+                        <button onclick="toggleControl('audio')" id="btn-audio" class="bg-[#e0c278] text-[#2d2d2d] hover:brightness-110 p-3.5 rounded-2xl flex items-center justify-between transition cursor-pointer shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-volume-high text-xl"></i>
+                                <div class="text-left"><p class="text-sm font-bold leading-tight">Audio</p><p class="text-[10px] opacity-80 status-text">Speakers</p></div>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="toggleControl('nightlight')" id="btn-nightlight" class="bg-white/5 hover:bg-white/10 text-white p-3.5 rounded-2xl border border-white/5 flex items-center justify-between transition cursor-pointer">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-moon text-xl"></i>
+                                <div class="text-left"><p class="text-sm font-bold leading-tight">Night Light</p><p class="text-[10px] text-gray-400 status-text">Off</p></div>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs opacity-70"></i>
+                        </button>
+                        
+                        <button onclick="toggleControl('darkmode')" id="btn-darkmode" class="bg-[#e0c278] text-[#2d2d2d] hover:brightness-110 p-3.5 rounded-2xl flex items-center justify-between transition cursor-pointer shadow-sm">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-circle-half-stroke text-xl"></i>
+                                <div class="text-left"><p class="text-sm font-bold leading-tight">Dark mode</p><p class="text-[10px] opacity-80 status-text">On</p></div>
+                            </div>
+                            <div class="w-9 h-5 bg-black/30 rounded-full relative flex items-center px-0.5">
+                                <div class="toggle-dot absolute right-1 w-4 h-4 bg-white rounded-full transition-all duration-300"></div>
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center gap-4">
+                        <i class="fa-solid fa-volume-low text-gray-400"></i>
+                        <input type="range" min="0" max="100" value="28" class="w-full accent-[#e0c278] h-1.5 bg-black/50 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+                        <span id="vol-val" class="text-xs font-bold text-white w-8 text-right">28%</span>
+                    </div>
+
+                    <div class="grid grid-cols-4 gap-3">
+                        <button onclick="triggerAction('screenshot')" class="bg-white/5 hover:bg-white/10 text-white p-3 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-1.5 transition cursor-pointer group shadow-sm">
+                            <i class="fa-solid fa-camera text-lg text-blue-400 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-[10px] font-semibold text-gray-300">Screenshot</span>
+                        </button>
+                        <button onclick="triggerAction('screenrecord')" class="bg-white/5 hover:bg-white/10 text-white p-3 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-1.5 transition cursor-pointer group shadow-sm">
+                            <i class="fa-solid fa-video text-lg text-red-400 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-[10px] font-semibold text-gray-300">Screen Rec</span>
+                        </button>
+                        <button onclick="triggerAction('voice')" class="bg-white/5 hover:bg-white/10 text-white p-3 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-1.5 transition cursor-pointer group shadow-sm">
+                            <i class="fa-solid fa-microphone text-lg text-green-400 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-[10px] font-semibold text-gray-300">Voice</span>
+                        </button>
+                        <button onclick="switchTab('stats')" class="bg-white/5 hover:bg-white/10 text-white p-3 rounded-2xl border border-white/5 flex flex-col items-center justify-center gap-1.5 transition cursor-pointer group shadow-sm">
+                            <i class="fa-solid fa-gauge-high text-lg text-purple-400 group-hover:scale-110 transition-transform"></i>
+                            <span class="text-[10px] font-semibold text-gray-300">Performance</span>
+                        </button>
+                    </div>
+
+                    <div class="bg-white/5 p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2.5 relative overflow-hidden">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1614165936126-22485f52ce8a?q=80&w=100&auto=format&fit=crop" class="w-10 h-10 rounded-lg shadow object-cover border border-white/10">
+                                <div>
+                                    <h4 class="text-xs font-bold text-white leading-tight">lofi beats to study and relax</h4>
+                                    <p class="text-[10px] text-gray-400 mt-0.5">lofi radio</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mr-1">
+                                <button class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-backward-step text-xs"></i></button>
+                                <button id="btn-play-pause" onclick="togglePlay()" class="w-9 h-9 rounded-full bg-[#e0c278] hover:scale-105 flex items-center justify-center text-[#2d2d2d] transition shadow cursor-pointer"><i class="fa-solid fa-pause text-xs"></i></button>
+                                <button class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-forward-step text-xs"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. TODAY TAB -->
+            <div id="content-today" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[780px] grid grid-cols-[140px_1fr_1fr] gap-3 h-full">
+                    
+                    <div class="flex flex-col gap-3 h-full">
+                        <div id="clock-widget-container" onclick="toggleClockTheme()" class="flex-1 bg-[#151515] border-white/5 rounded-2xl border flex flex-col items-center justify-center shadow-lg relative overflow-hidden cursor-pointer transition-all duration-500 group">
+                            <div id="clock-hours" class="text-3xl font-bold text-white leading-none z-10 transition-colors">12</div>
+                            <div id="clock-dots" class="flex space-x-1 my-1.5 z-10 animate-pulse">
+                                <div class="w-1.5 h-1.5 rounded-full bg-[#e0c278]"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-[#e0c278]"></div>
+                                <div class="w-1.5 h-1.5 rounded-full bg-[#e0c278]"></div>
+                            </div>
+                            <div id="clock-minutes" class="text-3xl font-bold text-white leading-none z-10 transition-colors">50</div>
+                            <div id="clock-date" class="text-[9px] font-medium text-gray-400 mt-2 z-10 tracking-wide">PM • Tue 13</div>
+                        </div>
+
+                        <div class="h-[75px] bg-[#151515] rounded-2xl border border-white/5 flex flex-col items-center justify-center shadow-lg">
+                            <i class="fa-solid fa-sun text-xl text-yellow-500 mb-0.5"></i>
+                            <div class="text-sm font-bold text-white leading-none">32°C</div>
+                            <div class="text-[8px] text-gray-400 mt-0.5">Mostly clear</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3 h-full">
+                        <div class="bg-[#151515] rounded-2xl border border-white/5 p-3 shadow-lg flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">This week</span>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-[9px] text-gray-500 font-mono">Sep 28 – Oct 4</span>
+                                    <div class="flex space-x-1">
+                                        <button onclick="shiftWeek(-1)" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <button onclick="shiftWeek(1)" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-7 gap-1 text-center mb-2">
+                                <div class="text-[9px] text-gray-500 font-medium">Mon<br><span id="cal-day-28" onclick="selectCalendarDate('28')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">28</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Tue<br><span id="cal-day-29" onclick="selectCalendarDate('29')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg bg-[#e0c278] text-[#2d2d2d] font-bold shadow-sm">29</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Wed<br><span id="cal-day-30" onclick="selectCalendarDate('30')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">30</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Thu<br><span id="cal-day-1" onclick="selectCalendarDate('1')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">1</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Fri<br><span id="cal-day-2" onclick="selectCalendarDate('2')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">2</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Sat<br><span id="cal-day-3" onclick="selectCalendarDate('3')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">3</span></div>
+                                <div class="text-[9px] text-gray-500 font-medium">Sun<br><span id="cal-day-4" onclick="selectCalendarDate('4')" class="calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition">4</span></div>
+                            </div>
+
+                            <div id="schedule-list-container" class="space-y-1 overflow-y-auto max-h-[45px] hide-scrollbar">
+                                <div class="bg-[#202020] rounded-xl p-1.5 px-2.5 flex items-center justify-between border-l-[3px] border-[#e0c278]">
+                                    <div class="text-[9px] font-bold text-white">11:00 AM • Daily AI news research</div>
+                                    <span class="text-[8px] text-gray-400">Sep 29</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#151515] rounded-2xl border border-white/5 p-2.5 shadow-lg flex items-center justify-between">
+                            <div class="relative w-14 h-14 flex items-center justify-center shrink-0">
+                                <svg class="w-14 h-14 transform -rotate-90">
+                                    <circle cx="28" cy="28" r="24" stroke="currentColor" stroke-width="3" class="text-white/10 fill-none"/>
+                                    <circle id="timer-progress" cx="28" cy="28" r="24" stroke="currentColor" stroke-width="3" class="text-[#e0c278] fill-none transition-all duration-1000" stroke-dasharray="150" stroke-dashoffset="0"/>
+                                </svg>
+                                <span id="timer-display" class="absolute text-[11px] font-bold text-white font-mono">05:00</span>
+                            </div>
+                            <div class="flex-1 ml-2.5 flex flex-col justify-between">
+                                <div class="flex gap-1 mb-1.5">
+                                    <span onclick="setTimer(1)" class="timer-pill flex-1 bg-[#222] hover:bg-[#2a2a2a] text-[8px] text-gray-400 py-1 rounded text-center cursor-pointer transition">1m</span>
+                                    <span onclick="setTimer(5)" class="timer-pill active flex-1 bg-[#e0c278]/10 text-[#e0c278] text-[8px] font-bold py-1 rounded text-center border border-[#e0c278]/30 cursor-pointer transition">5m</span>
+                                    <span onclick="setTimer(15)" class="timer-pill flex-1 bg-[#222] hover:bg-[#2a2a2a] text-[8px] text-gray-400 py-1 rounded text-center cursor-pointer transition">15m</span>
+                                </div>
+                                <div class="flex gap-1">
+                                    <button id="btn-timer-start" onclick="toggleTimer()" class="flex-1 bg-[#e0c278] hover:brightness-110 text-[#2d2d2d] py-1 rounded text-[9px] font-bold transition shadow-sm cursor-pointer">Start</button>
+                                    <button onclick="resetTimer()" class="flex-1 bg-white/5 hover:bg-white/10 text-gray-300 py-1 rounded text-[9px] transition cursor-pointer">Reset</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#151515] rounded-2xl border border-white/5 p-3.5 shadow-lg flex flex-col justify-between h-full">
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-[10px] text-gray-400 font-bold uppercase tracking-wider" id="todo-section-title">Today (Sep 29)</span>
+                            <span id="todo-counter" class="text-[9px] bg-green-500/20 text-green-400 font-bold px-2 py-0.5 rounded-full border border-green-500/30">0/1</span>
+                        </div>
+
+                        <div id="todo-list-container" class="space-y-1.5 overflow-y-auto max-h-[160px] hide-scrollbar mb-2">
+                            <div class="bg-[#202020] rounded-xl p-2 flex items-center gap-2 border border-white/5 cursor-pointer hover:bg-[#252525] transition" onclick="toggleTodo(this)">
+                                <i class="fa-regular fa-circle text-gray-500 text-xs"></i>
+                                <span class="text-[10px] text-gray-300 font-medium">Buy Hitodama & test AI features</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-1.5 bg-[#202020] rounded-xl p-1.5 border border-white/5">
+                            <input type="text" id="new-todo-input" placeholder="Add task for this date..." class="w-full bg-transparent text-[10px] text-white px-2 focus:outline-none" onkeypress="handleTodoKey(event)">
+                            <button onclick="addTodo()" class="w-6 h-6 rounded-lg bg-[#e0c278] text-[#2d2d2d] flex items-center justify-center text-xs shrink-0 cursor-pointer"><i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. STATS / NOTIFICATION CENTER TAB -->
+            <div id="content-stats" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[780px] grid grid-cols-[1fr_220px] gap-3 h-full">
+                    
+                    <!-- Left Column: Notifications -->
+                    <div class="flex flex-col h-full min-h-0">
+                        <div class="flex items-center justify-between mb-2 shrink-0">
+                            <div class="flex items-center space-x-2">
+                                <i class="fa-solid fa-bell text-jarvis-accent text-xs"></i>
+                                <h3 class="text-[11px] font-bold text-white tracking-wider uppercase">Windows OS Notifications</h3>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="clearAllNotifications()" class="text-[9px] bg-white/5 hover:bg-white/10 text-gray-300 px-2.5 py-0.5 rounded-full transition cursor-pointer border border-white/5">Clear All</button>
+                                <span id="notif-badge-count" class="text-[9px] bg-jarvis-accent text-black font-bold px-2 py-0.5 rounded-full">3 new</span>
+                            </div>
+                        </div>
+
+                        <div id="notification-list-container" class="space-y-1.5 flex-1 overflow-y-auto hide-scrollbar pr-1 pb-2">
+                            <div class="bg-[#151515] border border-white/5 hover:border-white/15 rounded-xl p-2.5 transition flex items-start gap-2.5 relative group">
+                                <div class="w-6 h-6 rounded-lg bg-green-500/20 text-green-400 flex items-center justify-center shrink-0 mt-0.5 border border-green-500/30">
+                                    <i class="fa-brands fa-whatsapp text-xs"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-0.5">
+                                        <h4 class="text-[11px] font-bold text-white truncate">WhatsApp • Arsh</h4>
+                                        <span class="text-[8px] text-gray-500 font-mono">2m ago</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-300 leading-snug">Hey Mainak! Are we still on for coffee at 10 AM?</p>
+                                </div>
+                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+
+                            <div class="bg-[#151515] border border-white/5 hover:border-white/15 rounded-xl p-2.5 transition flex items-start gap-2.5 relative group">
+                                <div class="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 mt-0.5 border border-blue-500/30">
+                                    <i class="fa-brands fa-twitter text-xs"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-0.5">
+                                        <h4 class="text-[11px] font-bold text-white truncate">Twitter / X • Mention</h4>
+                                        <span class="text-[8px] text-gray-500 font-mono">15m ago</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-300 leading-snug">@openai posted a new update regarding Gemini 2.5 flash speed.</p>
+                                </div>
+                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+
+                            <div class="bg-[#151515] border border-white/5 hover:border-white/15 rounded-xl p-2.5 transition flex items-start gap-2.5 relative group">
+                                <div class="w-6 h-6 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 mt-0.5 border border-purple-500/30">
+                                    <i class="fa-solid fa-cloud-arrow-down text-xs"></i>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center justify-between mb-0.5">
+                                        <h4 class="text-[11px] font-bold text-white truncate">Windows Update</h4>
+                                        <span class="text-[8px] text-gray-500 font-mono">1h ago</span>
+                                    </div>
+                                    <p class="text-[10px] text-gray-300 leading-snug">Cumulative update successfully installed. Restart required.</p>
+                                </div>
+                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                    <i class="fa-solid fa-xmark"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Laptop Performance Monitor -->
+                    <div class="flex flex-col gap-2.5 h-full">
+                        <div class="flex items-center space-x-2 mb-0.5">
+                            <i class="fa-solid fa-gauge-high text-jarvis-accent text-xs"></i>
+                            <h3 class="text-[11px] font-bold text-white tracking-wider uppercase">Performance</h3>
+                        </div>
+
+                        <!-- CPU Widget -->
+                        <div class="bg-[#151515] border border-white/5 rounded-xl p-3 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-1.5">
+                                <span class="text-[10px] font-semibold text-gray-300 flex items-center gap-1.5"><i class="fa-solid fa-microchip text-blue-400"></i> CPU Usage</span>
+                                <span id="perf-cpu-val" class="text-[10px] font-mono font-bold text-blue-400">24%</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                <div id="perf-cpu-bar" class="bg-blue-400 h-full rounded-full transition-all duration-500" style="width: 24%"></div>
+                            </div>
+                        </div>
+
+                        <!-- RAM Widget -->
+                        <div class="bg-[#151515] border border-white/5 rounded-xl p-3 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-1.5">
+                                <span class="text-[10px] font-semibold text-gray-300 flex items-center gap-1.5"><i class="fa-solid fa-memory text-jarvis-accent"></i> Memory (RAM)</span>
+                                <span id="perf-ram-val" class="text-[10px] font-mono font-bold text-jarvis-accent">6.8 / 16 GB</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                <div id="perf-ram-bar" class="bg-jarvis-accent h-full rounded-full transition-all duration-500" style="width: 42%"></div>
+                            </div>
+                        </div>
+
+                        <!-- GPU / Disk Widget -->
+                        <div class="bg-[#151515] border border-white/5 rounded-xl p-3 flex flex-col justify-between">
+                            <div class="flex justify-between items-center mb-1.5">
+                                <span class="text-[10px] font-semibold text-gray-300 flex items-center gap-1.5"><i class="fa-solid fa-hard-drive text-green-400"></i> SSD Disk</span>
+                                <span id="perf-disk-val" class="text-[10px] font-mono font-bold text-green-400">142 GB free</span>
+                            </div>
+                            <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
+                                <div id="perf-disk-bar" class="bg-green-400 h-full rounded-full transition-all duration-500" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 4. CLIPBOARD TAB -->
+            <div id="content-clipboard" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[780px] grid grid-cols-[220px_1fr] gap-3 h-full">
+                    <div class="flex flex-col gap-2 h-full">
+                        <div class="bg-[#151515] rounded-xl p-2 border border-white/5 flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass text-xs text-gray-500"></i>
+                            <input type="text" placeholder="Search 23 items..." class="bg-transparent text-[11px] text-white w-full focus:outline-none">
+                        </div>
+                        <div id="clipboard-list" class="space-y-1.5 overflow-y-auto max-h-[230px] hide-scrollbar pr-1">
+                            <div onclick="selectClipboardItem(this, 'today-1')" class="clipboard-item active bg-white/5 border border-white/10 rounded-xl p-2.5 cursor-pointer transition">
+                                <div class="text-[9px] text-gray-400 flex items-center justify-between mb-1"><span class="text-jarvis-accent font-bold">Text</span><span>now</span></div>
+                                <span class="text-xs text-white font-bold truncate block">Hey Arsh, what's up? How about coffee...</span>
+                            </div>
+                            <div onclick="selectClipboardItem(this, 'today-2')" class="clipboard-item bg-transparent border border-transparent rounded-xl p-2.5 cursor-pointer hover:bg-white/5 transition">
+                                <div class="text-[9px] text-gray-400 flex items-center justify-between mb-1"><span class="text-blue-400 font-bold">Link</span><span>4m</span></div>
+                                <span class="text-xs text-gray-300 font-medium truncate block">https://www.amazon.in/s?k=red+boxing</span>
+                            </div>
+                            <div onclick="selectClipboardItem(this, 'today-3')" class="clipboard-item bg-transparent border border-transparent rounded-xl p-2.5 cursor-pointer hover:bg-white/5 transition">
+                                <div class="text-[9px] text-gray-400 flex items-center justify-between mb-1"><span class="text-purple-400 font-bold">Command</span><span>1h</span></div>
+                                <span class="text-xs text-gray-300 font-medium truncate block">npm run dev -- --port 3000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#151515] rounded-2xl border border-white/5 p-4 flex flex-col justify-between h-full">
+                        <div id="clipboard-preview-content" class="text-xs text-gray-200 font-mono leading-relaxed overflow-y-auto max-h-[170px] hide-scrollbar">
+                            Hey Arsh, what's up? How about we go get some coffee at 10 in the morning, and then hang out at the park for a bit?
+                        </div>
+                        <div class="border-t border-white/10 pt-3 grid grid-cols-3 gap-2 text-[10px] text-gray-400 font-mono">
+                            <div><span class="text-gray-500 block">Type</span><span id="cb-meta-type" class="text-white font-medium">Text</span></div>
+                            <div><span class="text-gray-500 block">Size</span><span id="cb-meta-size" class="text-white font-medium">108 chars</span></div>
+                            <div><span class="text-gray-500 block">Copied</span><span id="cb-meta-time" class="text-white font-medium">9:41 AM</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. APPS TAB -->
+            <div id="content-apps" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[750px] flex flex-col h-full">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="bg-[#151515] border border-white/5 rounded-xl px-3 py-1.5 flex items-center gap-2 w-[260px]">
+                            <i class="fa-solid fa-magnifying-glass text-xs text-gray-500"></i>
+                            <input type="text" placeholder="Search apps..." class="bg-transparent text-xs text-white w-full focus:outline-none" oninput="filterApps(this.value)">
+                        </div>
+                        <div class="flex gap-1.5 text-xs">
+                            <button onclick="filterAppCategory('all')" class="px-3 py-1 bg-white/10 rounded-lg text-white font-medium cursor-pointer">All</button>
+                            <button onclick="filterAppCategory('microsoft')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 cursor-pointer">Office</button>
+                            <button onclick="filterAppCategory('coding')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 cursor-pointer">Coding</button>
+                            <button onclick="filterAppCategory('media')" class="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-lg text-gray-400 cursor-pointer">Media</button>
+                        </div>
+                    </div>
+                    <div id="apps-container-list" class="grid grid-cols-2 gap-2 overflow-y-auto max-h-[220px] hide-scrollbar pr-1"></div>
+                </div>
+            </div>
+
+            <!-- 6. WALLPAPER TAB -->
+            <div id="content-wallpaper" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[750px] flex flex-col items-center">
+                    <div class="flex gap-2 mb-3">
+                        <button class="bg-jarvis-accent text-[#2d2d2d] px-4 py-1.5 rounded-xl font-bold text-xs shadow-sm cursor-pointer">Presets</button>
+                        <button onclick="triggerOSWallpaperFolder()" class="bg-white/5 hover:bg-white/10 text-gray-300 px-4 py-1.5 rounded-xl font-medium text-xs border border-white/5 cursor-pointer">OS Windows Folder</button>
+                    </div>
+
+                    <div class="relative w-full max-w-[500px] h-[190px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl mb-3">
+                        <img id="main-preview-img" src="https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
+                            <span class="text-xs font-semibold text-white">Active Windows Wallpaper</span>
+                        </div>
+                        <button onclick="scrollWallpaperCarousel(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <button onclick="scrollWallpaperCarousel(1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    </div>
+
+                    <div class="flex items-center gap-3 w-full max-w-[500px]">
+                        <input type="text" id="ai-wallpaper-prompt" placeholder="AI Generate (e.g., Cyberpunk Tokyo Night)..." class="bg-[#151515] border border-white/10 rounded-xl px-3 py-2 text-xs text-white flex-1 focus:outline-none">
+                        <button onclick="generateAIWallpaper()" class="bg-jarvis-accent text-[#2d2d2d] hover:brightness-110 px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shadow-sm">Generate AI</button>
+                        <button onclick="applyWallpaperToWindows()" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-medium transition cursor-pointer border border-white/5">Apply</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. POWER TAB -->
+            <div id="content-power" class="absolute inset-0 flex flex-col items-center justify-start w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 px-6 pt-1 pb-4">
+                <div class="w-full max-w-[700px] grid grid-cols-4 gap-3">
+                    <button onclick="triggerPowerAction('Lock')" class="bg-[#151515] hover:bg-white/5 border border-white/5 hover:border-white/15 p-5 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition cursor-pointer group shadow-lg">
+                        <i class="fa-solid fa-lock text-2xl text-[#e0c278] group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-bold text-white">Lock</span>
+                    </button>
+                    <button onclick="triggerPowerAction('Sleep')" class="bg-[#151515] hover:bg-white/5 border border-white/5 hover:border-white/15 p-5 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition cursor-pointer group shadow-lg">
+                        <i class="fa-solid fa-moon text-2xl text-blue-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-bold text-white">Sleep</span>
+                    </button>
+                    <button onclick="triggerPowerAction('Restart')" class="bg-[#151515] hover:bg-white/5 border border-white/5 hover:border-white/15 p-5 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition cursor-pointer group shadow-lg">
+                        <i class="fa-solid fa-rotate-right text-2xl text-green-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-bold text-white">Restart</span>
+                    </button>
+                    <button onclick="triggerPowerAction('Shut down')" class="bg-[#151515] hover:bg-white/5 border border-white/5 hover:border-white/15 p-5 rounded-2xl flex flex-col items-center justify-center gap-2.5 transition cursor-pointer group shadow-lg">
+                        <i class="fa-solid fa-power-off text-2xl text-red-400 group-hover:scale-110 transition-transform"></i>
+                        <span class="text-xs font-bold text-white">Shut down</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="ai-assistant-modal" class="hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] max-w-[95%] glass-panel rounded-3xl shadow-[0_40px_80px_rgba(0,0,0,0.9)] z-[100] flex flex-col overflow-hidden animate-pop-in border border-white/10" onclick="event.stopPropagation()">
+        <div class="bg-[#141414] px-5 py-4 border-b border-white/10 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-jarvis-accent/20 border border-jarvis-accent/40 flex items-center justify-center text-jarvis-accent font-bold"><i class="fa-solid fa-ghost"></i></div>
+                <div>
+                    <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                        JARVIS AI Assistant <span id="active-model-badge" class="text-[9px] bg-jarvis-accent/20 text-jarvis-accent border border-jarvis-accent/30 px-2 py-0.5 rounded-full font-mono">Gemini 2.5 Flash</span>
+                    </h3>
+                    <p class="text-[10px] text-gray-400">Drag header to move • Control OS, Browser & Apps</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <select onchange="switchAIModel(this.value)" class="bg-[#202020] text-xs text-gray-200 border border-white/10 rounded-xl px-3 py-1.5 focus:outline-none cursor-pointer">
+                    <option value="gemini">Google Gemini 2.5</option>
+                    <option value="claude">Claude 3.5 Sonnet</option>
+                    <option value="gpt">GPT-4o OpenAI</option>
+                </select>
+                <button onclick="toggleAIAssistant()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer" title="Close">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="ai-chat-messages" class="p-5 flex-1 overflow-y-auto max-h-[340px] space-y-4 hide-scrollbar bg-[#0c0c0c]/80">
+            <div class="flex items-start space-x-3">
+                <div class="w-7 h-7 rounded-full bg-jarvis-accent text-black flex items-center justify-center font-bold text-xs shrink-0">J</div>
+                <div class="bg-[#1b1b1b] border border-white/5 p-3.5 rounded-2xl text-gray-200 text-xs leading-relaxed max-w-[85%] shadow">
+                    Hello Sir! You can select your preferred AI model (Gemini, Claude, or GPT) from the dropdown above. Type a command or ask me to open apps, control browser tabs, or manage Windows settings.
+                </div>
+            </div>
+        </div>
+
+        <div class="p-4 bg-[#141414] border-t border-white/10 flex items-center space-x-3">
+            <button onclick="triggerVoiceListen()" class="w-10 h-10 rounded-2xl bg-white/5 hover:bg-white/10 text-jarvis-accent border border-white/5 flex items-center justify-center transition cursor-pointer shrink-0"><i class="fa-solid fa-microphone"></i></button>
+            <input type="text" id="ai-chat-input" placeholder="Type a command (e.g., 'Open Chrome', 'Play Spotify', 'Mute volume')..." class="bg-[#1f1f1f] border border-white/10 rounded-2xl px-4 py-2.5 text-xs text-white flex-1 focus:outline-none focus:border-jarvis-accent/50 transition" onkeypress="handleAIChatKey(event)">
+            <button onclick="sendAIChatCommand()" class="bg-jarvis-accent hover:brightness-110 text-[#2d2d2d] px-5 py-2.5 rounded-2xl text-xs font-bold transition shadow cursor-pointer">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const windowsApps = [
+            { name: "Microsoft Word", category: "microsoft", icon: "fa-file-word", color: "bg-[#2b579a]", badge: "Office" },
+            { name: "Microsoft Excel", category: "microsoft", icon: "fa-file-excel", color: "bg-[#217346]", badge: "Office" },
+            { name: "Microsoft PowerPoint", category: "microsoft", icon: "fa-file-powerpoint", color: "bg-[#d24726]", badge: "Office" },
+            { name: "Microsoft Edge", category: "microsoft", icon: "fa-edge", color: "bg-[#0078d4]", badge: "Browser" },
+            { name: "Visual Studio Code", category: "coding", icon: "fa-code", color: "bg-[#007acc]", badge: "Running", running: true },
+            { name: "GitHub Desktop", category: "coding", icon: "fa-brands fa-github", color: "bg-[#24292e]", badge: "Git" },
+            { name: "Google Chrome", category: "media", icon: "fa-brands fa-chrome", color: "bg-[#4285f4]", badge: "Browser" },
+            { name: "Spotify", category: "media", icon: "fa-brands fa-spotify", color: "bg-[#1db954]", badge: "Music", running: true },
+            { name: "Discord", category: "media", icon: "fa-brands fa-discord", color: "bg-[#5865f2]", badge: "Chat" },
+            { name: "Notion", category: "student", icon: "fa-book-open", color: "bg-[#000000]", badge: "Study" }
+        ];
+
+        const wallpaperPresets = [
+            "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1550684376-efcbd6e3f031?q=80&w=1920&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1920&auto=format&fit=crop",
+            "https://images.unsplash.com/photo-1472214103451-9374bd1c798e?q=80&w=1920&auto=format&fit=crop"
+        ];
+        let currentWallpaperIndex = 2;
+        let currentAIModel = "gemini";
+        let activeDate = '29';
+
+        function switchAIModel(model) {
+            currentAIModel = model;
+            const badge = document.getElementById('active-model-badge');
+            if (badge) {
+                if (model === 'gemini') badge.textContent = "Gemini 2.5 Flash";
+                if (model === 'claude') badge.textContent = "Claude 3.5 Sonnet";
+                if (model === 'gpt') badge.textContent = "GPT-4o";
+            }
+        }
+
+        function scrollWallpaperCarousel(direction) {
+            currentWallpaperIndex = (currentWallpaperIndex + direction + wallpaperPresets.length) % wallpaperPresets.length;
+            setWallpaper(wallpaperPresets[currentWallpaperIndex]);
+        }
+
+        const miniIsland = document.getElementById('mini-island');
+        const contextPopup = document.getElementById('context-popup');
+        const expandedPanel = document.getElementById('expanded-panel');
+        const mockupDropdown = document.getElementById('mockup-dropdown');
+        const aiAssistantModal = document.getElementById('ai-assistant-modal');
+
+        function toggleMockupMenu() {
+            if (mockupDropdown) mockupDropdown.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', (event) => {
+            if (!mockupDropdown) return;
+            const isClickInside = mockupDropdown.contains(event.target) || event.target.closest('button[onclick="toggleMockupMenu()"]');
+            if (!isClickInside && !mockupDropdown.classList.contains('hidden')) {
+                mockupDropdown.classList.add('hidden');
+            }
+        });
+
+        function handleDesktopClick(event) {
+            if (expandedPanel && !expandedPanel.classList.contains('hidden')) {
+                closeExpandedPanel();
+            }
+        }
+
+        function hideAll() {
+            if (contextPopup) contextPopup.classList.add('hidden');
+            if (mockupDropdown) mockupDropdown.classList.add('hidden');
+            if (aiAssistantModal) aiAssistantModal.classList.add('hidden');
+            closeExpandedPanel();
+        }
+
+        function toggleUI(type) {
+            hideAll();
+            closeExpandedPanel();
+            setTimeout(() => {
+                if (type === 'dictation') alert("Voice dictation activated. Start speaking...");
+                else if (type === 'vision') alert("Vision + Redact mode active. Drag to inspect region.");
+            }, 200);
+        }
+
+        function toggleAIAssistant() {
+            if (aiAssistantModal) {
+                aiAssistantModal.classList.toggle('hidden');
+                if (!aiAssistantModal.classList.contains('hidden')) {
+                    const input = document.getElementById('ai-chat-input');
+                    if (input) input.focus();
+                }
+            }
+        }
+
+        function toggleExpandedPanel() {
+            if(expandedPanel && miniIsland) {
+                miniIsland.classList.add('-translate-y-full', 'opacity-0');
+                expandedPanel.classList.remove('hidden', 'animate-slide-up-panel');
+                expandedPanel.classList.add('animate-slide-down-panel');
+                switchTab('controls');
+            }
+        }
+        
+        function closeExpandedPanel() {
+            if(expandedPanel && miniIsland) {
+                expandedPanel.classList.remove('animate-slide-down-panel');
+                expandedPanel.classList.add('animate-slide-up-panel');
+                setTimeout(() => {
+                    expandedPanel.classList.add('hidden');
+                    miniIsland.classList.remove('-translate-y-full', 'opacity-0');
+                }, 300);
+            }
+        }
+
+        const tabs = ['controls', 'today', 'stats', 'clipboard', 'apps', 'wallpaper', 'power'];
+        
+        function switchTab(activeTab) {
+            tabs.forEach(tab => {
+                const btn = document.getElementById(`tab-${tab}`);
+                if (btn) {
+                    if (tab === activeTab) {
+                        btn.className = 'text-jarvis-accent bg-jarvis-accentBg px-3.5 py-1.5 rounded-full border border-jarvis-accent/20 transition cursor-pointer';
+                    } else {
+                        btn.className = 'hover:text-white transition px-3.5 py-1.5 rounded-full text-gray-400 cursor-pointer';
+                    }
+                }
+            });
+
+            tabs.forEach(tab => {
+                const contentEl = document.getElementById(`content-${tab}`);
+                if (contentEl) {
+                    if (tab === activeTab) {
+                        contentEl.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
+                        contentEl.classList.add('opacity-100', 'z-10');
+                    } else {
+                        contentEl.classList.remove('opacity-100', 'z-10');
+                        contentEl.classList.add('opacity-0', 'pointer-events-none', 'z-0');
+                    }
+                }
+            });
+        }
+
+        function toggleIslandState(state) {
+            hideAll();
+            if (state === 'collapsed') closeExpandedPanel();
+            else if (state === 'context' && contextPopup) {
+                closeExpandedPanel();
+                contextPopup.classList.remove('hidden');
+            } else if (state === 'expanded' && expandedPanel) toggleExpandedPanel();
+        }
+
+        function renderApps(filteredApps = windowsApps) {
+            const container = document.getElementById('apps-container-list');
+            if (!container) return;
+            let html = '';
+            filteredApps.forEach(app => {
+                html += `
+                    <div class="flex items-center justify-between hover:bg-white/5 rounded-xl p-2.5 cursor-pointer transition group border border-white/5">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-8 h-8 rounded-lg ${app.color} text-white flex items-center justify-center shadow-sm">
+                                <i class="fa-solid ${app.icon} text-xs"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-gray-200">${app.name}</span>
+                        </div>
+                        <span class="text-[10px] text-gray-400 bg-black/40 px-2.5 py-1 rounded-md">${app.badge}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function filterApps(query) {
+            const q = query.toLowerCase();
+            renderApps(windowsApps.filter(a => a.name.toLowerCase().includes(q) || a.badge.toLowerCase().includes(q)));
+        }
+
+        function filterAppCategory(cat) {
+            if (cat === 'all') renderApps(windowsApps);
+            else renderApps(windowsApps.filter(a => a.category === cat));
+        }
+
+        let activeWallpaperUrl = "https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop";
+
+        function setWallpaper(imgUrl) {
+            activeWallpaperUrl = imgUrl;
+            const mainPreview = document.getElementById('main-preview-img');
+            if (mainPreview) mainPreview.src = imgUrl;
+        }
+
+        function applyWallpaperToWindows() {
+            const body = document.getElementById('os-body');
+            if (body) body.style.backgroundImage = `url('${activeWallpaperUrl}')`;
+            alert("Wallpaper applied successfully!");
+        }
+
+        function triggerOSWallpaperFolder() { alert("Opening Windows Wallpaper directory..."); }
+
+        function generateAIWallpaper() {
+            const promptInput = document.getElementById('ai-wallpaper-prompt');
+            if (!promptInput || !promptInput.value) return alert("Please type a prompt.");
+            setWallpaper(`https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1920&auto=format&fit=crop&sig=${Date.now()}`);
+            alert(`AI generated wallpaper for: "${promptInput.value}"`);
+            promptInput.value = '';
+        }
+
+        function sendAIChatCommand() {
+            const input = document.getElementById('ai-chat-input');
+            const container = document.getElementById('ai-chat-messages');
+            if (!input || !input.value.trim()) return;
+
+            const userText = input.value.trim();
+            input.value = '';
+
+            container.innerHTML += `
+                <div class="flex items-start justify-end space-x-3">
+                    <div class="bg-jarvis-accent/20 border border-jarvis-accent/30 p-3 rounded-2xl text-white max-w-[80%] text-xs">${userText}</div>
+                    <div class="w-7 h-7 rounded-full bg-white/20 text-white flex items-center justify-center font-bold text-xs shrink-0">U</div>
+                </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+
+            setTimeout(() => {
+                container.innerHTML += `
+                    <div class="flex items-start space-x-3">
+                        <div class="w-7 h-7 rounded-full bg-jarvis-accent text-black flex items-center justify-center font-bold text-xs shrink-0">J</div>
+                        <div class="bg-[#1b1b1b] border border-white/5 p-3.5 rounded-2xl text-gray-200 max-w-[80%] text-xs">Processed command "${userText}" successfully.</div>
+                    </div>
+                `;
+                container.scrollTop = container.scrollHeight;
+            }, 500);
+        }
+
+        function handleAIChatKey(e) { if (e.key === 'Enter') sendAIChatCommand(); }
+        function triggerVoiceListen() { alert("Voice listening activated."); }
+
+        function toggleControl(id) {
+            const btn = document.getElementById(`btn-${id}`);
+            if (!btn) return;
+            const isActive = btn.classList.contains('bg-[#e0c278]');
+            const statusText = btn.querySelector('.status-text');
+            const toggleDot = btn.querySelector('.toggle-dot');
+            
+            if (isActive) {
+                btn.classList.remove('bg-[#e0c278]', 'text-[#2d2d2d]', 'shadow-sm');
+                btn.classList.add('bg-white/5', 'text-white', 'border', 'border-white/5');
+                if(statusText) statusText.innerText = 'Off';
+                if(toggleDot) toggleDot.classList.replace('right-1', 'left-1');
+            } else {
+                btn.classList.remove('bg-white/5', 'text-white', 'border', 'border-white/5');
+                btn.classList.add('bg-[#e0c278]', 'text-[#2d2d2d]', 'shadow-sm');
+                if(statusText) statusText.innerText = 'On';
+                if(toggleDot) toggleDot.classList.replace('left-1', 'right-1');
+            }
+        }
+
+        function triggerAction(action) { alert(`Executing action: ${action}`); }
+        function triggerPowerAction(action) { alert(`Power action requested: ${action}`); }
+
+        function togglePlay() {
+            const icon = document.querySelector('#btn-play-pause i');
+            if (icon.classList.contains('fa-pause')) icon.className = 'fa-solid fa-play text-xs';
+            else icon.className = 'fa-solid fa-pause text-xs';
+        }
+
+        function togglePopupMediaPlay(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-pause')) icon.className = 'fa-solid fa-play text-lg';
+            else icon.className = 'fa-solid fa-pause text-lg';
+        }
+
+        // --- CLIPBOARD LOGIC ---
+        const clipboardData = {
+            'today-1': { content: "Hey Arsh, what's up? How about we go get some coffee at 10 in the morning, and then hang out at the park for a bit?", type: 'Text', size: '108 chars • 22 words', time: 'Today, 9:41 AM' },
+            'today-2': { content: 'https://www.amazon.in/s?k=red+boxing+gloves', type: 'Link', size: '42 chars', time: 'Today, 9:37 AM' },
+            'today-3': { content: 'npm run dev -- --port 3000', type: 'Command', size: '26 chars', time: 'Today, 8:41 AM' }
+        };
+
+        function selectClipboardItem(element, id) {
+            document.querySelectorAll('.clipboard-item').forEach(el => {
+                el.classList.remove('active', 'bg-white/5', 'border-white/10');
+                el.classList.add('bg-transparent', 'border-transparent');
+                const t = el.querySelector('span.text-white');
+                if(t) t.className = 'text-xs text-gray-300 font-medium truncate block';
+            });
+            element.classList.add('active', 'bg-white/5', 'border-white/10');
+            const t = element.querySelector('span');
+            if(t) t.className = 'text-xs text-white font-bold truncate block';
+
+            const data = clipboardData[id];
+            if(data) {
+                document.getElementById('clipboard-preview-content').innerText = data.content;
+                document.getElementById('cb-meta-type').innerText = data.type;
+                document.getElementById('cb-meta-size').innerText = data.size;
+                document.getElementById('cb-meta-time').innerText = data.time;
+            }
+        }
+        
+        // --- CLOCK THEME WIDGET ---
+        let currentClockTheme = 0;
+        function toggleClockTheme() {
+            currentClockTheme = (currentClockTheme + 1) % 3;
+            const container = document.getElementById('clock-widget-container');
+            const hours = document.getElementById('clock-hours');
+            const minutes = document.getElementById('clock-minutes');
+            const date = document.getElementById('clock-date');
+            
+            container.className = 'flex-1 rounded-2xl border flex flex-col items-center justify-center relative overflow-hidden cursor-pointer transition-all duration-500 group ' + 
+                (currentClockTheme === 0 ? 'bg-[#151515] border-white/5 shadow-lg' : 
+                 currentClockTheme === 1 ? 'bg-[#e0c278] border-[#e0c278]/50 shadow-md' : 'bg-black/60 border-[#e0c278]/50 backdrop-blur-md');
+                 
+            hours.className = 'text-3xl font-bold leading-none z-10 transition-colors ' + (currentClockTheme === 1 ? 'text-[#2d2d2d]' : currentClockTheme === 2 ? 'text-[#e0c278]' : 'text-white');
+            minutes.className = 'text-3xl font-bold leading-none z-10 transition-colors ' + (currentClockTheme === 1 ? 'text-[#2d2d2d]' : currentClockTheme === 2 ? 'text-[#e0c278]' : 'text-white');
+            date.className = 'text-[9px] font-medium mt-2 z-10 tracking-wide ' + (currentClockTheme === 1 ? 'text-[#2d2d2d]/80' : currentClockTheme === 2 ? 'text-[#e0c278]/80' : 'text-gray-400');
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const h = now.getHours().toString().padStart(2, '0');
+            const m = now.getMinutes().toString().padStart(2, '0');
+            const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            
+            const hoursEl = document.getElementById('clock-hours');
+            const minutesEl = document.getElementById('clock-minutes');
+            const dateEl = document.getElementById('clock-date');
+            
+            if(hoursEl) hoursEl.innerText = h;
+            if(minutesEl) minutesEl.innerText = m;
+            if(dateEl) dateEl.innerText = `${ampm} • ${days[now.getDay()]} ${now.getDate()}`;
+        }
+        setInterval(updateClock, 1000);
+
+        // --- PERFORMANCE MONITOR LIVE SIMULATION ---
+        function updatePerformanceStats() {
+            const cpuVal = Math.floor(18 + Math.random() * 25);
+            const cpuBar = document.getElementById('perf-cpu-bar');
+            const cpuText = document.getElementById('perf-cpu-val');
+            if(cpuBar && cpuText) {
+                cpuBar.style.width = cpuVal + '%';
+                cpuText.innerText = cpuVal + '%';
+            }
+
+            const ramUsed = (6.4 + Math.random() * 0.8).toFixed(1);
+            const ramBar = document.getElementById('perf-ram-bar');
+            const ramText = document.getElementById('perf-ram-val');
+            if(ramBar && ramText) {
+                const ramPercent = (ramUsed / 16) * 100;
+                ramBar.style.width = ramPercent + '%';
+                ramText.innerText = `${ramUsed} / 16 GB`;
+            }
+        }
+        setInterval(updatePerformanceStats, 2500);
+
+        // --- TIMER / POMODORO LOGIC ---
+        let timerInterval;
+        let timerTotalSeconds = 300;
+        let timerSecondsLeft = 300;
+        let isTimerRunning = false;
+        
+        function formatTime(totalSeconds) {
+            const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+            const s = (totalSeconds % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
+        }
+        
+        function updateTimerUI() {
+            const display = document.getElementById('timer-display');
+            const progress = document.getElementById('timer-progress');
+            if(display) display.innerText = formatTime(timerSecondsLeft);
+            if(progress) {
+                const maxOffset = 150;
+                const offset = maxOffset * ((timerTotalSeconds - timerSecondsLeft) / timerTotalSeconds);
+                progress.style.strokeDashoffset = offset;
+            }
+        }
+
+        function setTimer(minutes) {
+            if (isTimerRunning) return;
+            timerTotalSeconds = minutes * 60;
+            timerSecondsLeft = timerTotalSeconds;
+            
+            document.querySelectorAll('.timer-pill').forEach(pill => {
+                if (pill.innerText === `${minutes}m`) {
+                    pill.className = 'timer-pill active flex-1 bg-[#e0c278]/10 text-[#e0c278] text-[8px] font-bold py-1 rounded text-center border border-[#e0c278]/30 cursor-pointer transition';
+                } else {
+                    pill.className = 'timer-pill flex-1 bg-[#222] hover:bg-[#2a2a2a] text-[8px] text-gray-400 py-1 rounded text-center cursor-pointer transition';
+                }
+            });
+            updateTimerUI();
+        }
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer-start');
+            if (isTimerRunning) {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                if(btn) { btn.innerText = 'Start'; btn.className = 'flex-1 bg-[#e0c278] hover:brightness-110 text-[#2d2d2d] py-1 rounded text-[9px] font-bold transition shadow-sm cursor-pointer'; }
+            } else {
+                if (timerSecondsLeft <= 0) return;
+                isTimerRunning = true;
+                if(btn) { btn.innerText = 'Pause'; btn.className = 'flex-1 bg-white/10 hover:bg-white/20 text-white py-1 rounded text-[9px] font-bold transition cursor-pointer'; }
+                
+                timerInterval = setInterval(() => {
+                    timerSecondsLeft--;
+                    updateTimerUI();
+                    if (timerSecondsLeft <= 0) {
+                        clearInterval(timerInterval);
+                        isTimerRunning = false;
+                        if(btn) btn.innerText = 'Start';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            timerSecondsLeft = timerTotalSeconds;
+            const btn = document.getElementById('btn-timer-start');
+            if(btn) { btn.innerText = 'Start'; btn.className = 'flex-1 bg-[#e0c278] hover:brightness-110 text-[#2d2d2d] py-1 rounded text-[9px] font-bold transition shadow-sm cursor-pointer'; }
+            updateTimerUI();
+        }
+
+        // --- TODO & SCHEDULE PER DATE ---
+        let dateSchedules = {
+            '28': [{ time: '09:00 AM', title: 'Setup workspace repository' }],
+            '29': [{ time: '11:00 AM', title: 'Daily AI news research' }],
+            '30': [{ time: '02:00 PM', title: 'Code review with team' }],
+            '1': [{ time: '10:30 AM', title: 'Client meeting & feedback' }],
+            '2': [{ time: '04:00 PM', title: 'Deploy staging build' }],
+            '3': [{ time: '11:00 AM', title: 'Weekly system maintenance' }],
+            '4': [{ time: '01:00 PM', title: 'Review open source PRs' }]
+        };
+
+        let dateTodos = {
+            '28': [{ text: 'Initialize project structure', completed: true }],
+            '29': [{ text: 'Buy Hitodama & test AI features', completed: false }],
+            '30': [{ text: 'Update dependencies', completed: false }],
+            '1': [{ text: 'Prepare presentation slides', completed: false }],
+            '2': [{ text: 'Run unit tests', completed: false }],
+            '3': [{ text: 'Backup local database', completed: false }],
+            '4': [{ text: 'Plan next sprint tasks', completed: false }]
+        };
+
+        function selectCalendarDate(date) {
+            activeDate = date;
+            document.querySelectorAll('.calendar-day').forEach(el => {
+                el.className = 'calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg text-white hover:bg-white/10 transition text-center';
+            });
+            const sel = document.getElementById(`cal-day-${date}`);
+            if(sel) sel.className = 'calendar-day cursor-pointer inline-block w-6 h-6 leading-6 rounded-lg bg-[#e0c278] text-[#2d2d2d] font-bold shadow-sm text-center';
+            
+            const titleEl = document.getElementById('todo-section-title');
+            if(titleEl) titleEl.innerText = `Today (Sep ${date})`;
+            
+            renderScheduleList();
+            renderTodoList();
+        }
+
+        function shiftWeek(dir) {
+            alert(dir > 0 ? "Switching to next week..." : "Switching to previous week...");
+        }
+
+        function renderScheduleList() {
+            const container = document.getElementById('schedule-list-container');
+            if(!container) return;
+            const items = dateSchedules[activeDate] || [];
+            if (items.length === 0) {
+                container.innerHTML = '<div class="text-[9px] text-gray-500 text-center py-1">No scheduled events</div>';
+                return;
+            }
+            let html = '';
+            items.forEach(item => {
+                html += `
+                    <div class="bg-[#202020] rounded-xl p-1.5 px-2.5 flex items-center justify-between border-l-[3px] border-[#e0c278]">
+                        <div class="text-[9px] font-bold text-white">${item.time} • ${item.title}</div>
+                        <span class="text-[8px] text-gray-400">Sep ${activeDate}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderTodoList() {
+            const container = document.getElementById('todo-list-container');
+            if(!container) return;
+            const tasks = dateTodos[activeDate] || [];
+            let html = '';
+            let completedCount = 0;
+            
+            tasks.forEach((t, idx) => {
+                if (t.completed) completedCount++;
+                html += `
+                    <div class="bg-[#202020] rounded-xl p-2 flex items-center gap-2 border border-white/5 cursor-pointer hover:bg-[#252525] transition" onclick="toggleTodoItem(${idx})">
+                        <i class="${t.completed ? 'fa-solid fa-circle-check text-green-400' : 'fa-regular fa-circle text-gray-500'} text-xs"></i>
+                        <span class="text-[10px] ${t.completed ? 'text-gray-500 line-through' : 'text-gray-300'} font-medium">${t.text}</span>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+            
+            const counter = document.getElementById('todo-counter');
+            if(counter) counter.innerText = `${completedCount}/${tasks.length}`;
+        }
+
+        function toggleTodoItem(idx) {
+            if(!dateTodos[activeDate]) dateTodos[activeDate] = [];
+            dateTodos[activeDate][idx].completed = !dateTodos[activeDate][idx].completed;
+            renderTodoList();
+        }
+
+        function addTodo() {
+            const input = document.getElementById('new-todo-input');
+            if(!input || !input.value.trim()) return;
+            if(!dateTodos[activeDate]) dateTodos[activeDate] = [];
+            dateTodos[activeDate].push({ text: input.value.trim(), completed: false });
+            input.value = '';
+            renderTodoList();
+        }
+
+        function handleTodoKey(e) { if (e.key === 'Enter') addTodo(); }
+
+        function dismissNotification(btn) {
+            const card = btn.closest('div.bg-\\[\\#151515\\]');
+            if (card) {
+                card.style.transform = 'scale(0.95)';
+                card.style.opacity = '0';
+                setTimeout(() => { card.remove(); updateNotifBadge(); }, 200);
+            }
+        }
+
+        function clearAllNotifications() {
+            const container = document.getElementById('notification-list-container');
+            if (container) {
+                container.innerHTML = '<div class="text-center py-12 text-gray-500 text-xs">No new notifications</div>';
+                updateNotifBadge(true);
+            }
+        }
+
+        function updateNotifBadge(isEmpty = false) {
+            const container = document.getElementById('notification-list-container');
+            const badge = document.getElementById('notif-badge-count');
+            if (!container || !badge) return;
+            const count = isEmpty ? 0 : container.querySelectorAll('div.bg-\\[\\#151515\\]').length;
+            if (count === 0) {
+                badge.innerText = '0 new';
+                badge.className = 'text-[10px] bg-white/10 text-gray-400 font-bold px-2 py-0.5 rounded-full';
+            } else {
+                badge.innerText = `${count} new`;
+                badge.className = 'text-[10px] bg-jarvis-accent text-black font-bold px-2 py-0.5 rounded-full';
+            }
+        }
+
+        window.onload = function() {
+            renderApps();
+            toggleIslandState('collapsed');
+            updateClock();
+            updateTimerUI();
+            renderScheduleList();
+            renderTodoList();
+            console.log("JARVIS OS UI loaded successfully.");
+        };
+    </script>
+</body>
+</html>
