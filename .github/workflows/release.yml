@@ -1,0 +1,75 @@
+name: Windows Release (Windows 10/11)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Ensure assets directory
+        run: |
+          mkdir -p assets
+          ls -la assets || true
+
+      - name: Build (no-op for static mockup)
+        run: npm run build
+
+      - name: Package Windows (electron-builder)
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          # Build x64 and produce installer + portable by default
+          npx electron-builder --win --x64
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: jarvis-os-windows-artifacts
+          path: dist/**/*
+          retention-days: 7
+
+  publish-release:
+    needs: build-win
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: jarvis-os-windows-artifacts
+          path: dist-artifacts
+
+      - name: Create GitHub Release (if not created)
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifacts to Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url || format('https://uploads.github.com/repos/{0}/{1}/releases/{2}/assets', github.repository_owner, github.repository, github.ref_name) }}
+          asset_path: dist/**/*
+          asset_name: ${{ github.ref_name }}-windows-artifacts.zip
+          asset_content_type: application/zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

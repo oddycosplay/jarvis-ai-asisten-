@@ -1,0 +1,50 @@
+{
+  "name": "jarvis-os-ui",
+  "version": "1.0.1",
+  "description": "JARVIS OS UI Dashboard desktop wrapper for Windows 10/11",
+  "main": "main.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "echo \"Static web mockup. No compile step required.\"",
+    "dist": "electron-builder --win",
+    "release": "electron-builder --win --publish always"
+  },
+  "build": {
+    "appId": "com.oddycosplay.jarvisos",
+    "productName": "JARVIS OS",
+    "artifactName": "JARVIS-OS-${version}-${arch}.${ext}",
+    "directories": {
+      "buildResources": "assets"
+    },
+    "files": [
+      "**/*",
+      "!**/.git/**",
+      "!**/.github/**",
+      "!**/*.md",
+      "!**/*.log"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "assets/hantuf-logo.ico",
+      "requestedExecutionLevel": "asInvoker",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    },
+    "portable": {
+      "artifactName": "JARVIS-OS-${version}-Portable.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.0"
+  }
+}

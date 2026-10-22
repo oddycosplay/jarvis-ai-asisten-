@@ -66,20 +66,20 @@
 
         .glass-panel {
             background: rgba(15, 15, 15, 0.94);
-            backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(0,0,0,0.5);
         }
 
         .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar { -ms-overflow-style: none; }
     </style>
 </head>
 <body id="os-body" class="bg-gray-900 text-white h-screen w-screen os-background relative select-none" onclick="handleDesktopClick(event)">
 
     <div class="absolute left-4 top-4 z-[100]" onclick="event.stopPropagation()">
-        <button onclick="toggleMockupMenu()" class="glass-panel w-12 h-12 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition shadow-[0_10px_20px_rgba(0,0,0,0.5)] cursor-pointer">
+        <button onclick="toggleMockupMenu()" title="Mockup Triggers Menu" aria-label="Mockup Triggers Menu" class="glass-panel w-12 h-12 rounded-full flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition shadow-[0_10px_20px_rgba(0,0,0,0.5)] cursor-pointer">
             <i class="fa-solid fa-gamepad text-xl"></i>
         </button>
         
@@ -142,9 +142,9 @@
                 <span>62:15</span>
             </div>
             <div class="flex items-center justify-center space-x-10 mb-3">
-                <button class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-backward-step text-lg"></i></button>
-                <button onclick="togglePopupMediaPlay(this)" class="text-white hover:scale-110 active:scale-95 transition cursor-pointer"><i class="fa-solid fa-pause text-2xl"></i></button>
-                <button class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-forward-step text-lg"></i></button>
+                <button title="Previous Track" aria-label="Previous Track" class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-backward-step text-lg"></i></button>
+                <button onclick="togglePopupMediaPlay(this)" title="Play or Pause" aria-label="Play or Pause" class="text-white hover:scale-110 active:scale-95 transition cursor-pointer"><i class="fa-solid fa-pause text-2xl"></i></button>
+                <button title="Next Track" aria-label="Next Track" class="text-white/70 hover:text-white transition cursor-pointer hover:scale-110 active:scale-95"><i class="fa-solid fa-forward-step text-lg"></i></button>
             </div>
             <div class="w-full flex justify-center mt-2 cursor-pointer pt-1 pb-1" onclick="toggleIslandState('collapsed')">
                 <div class="w-10 h-1 bg-white/20 rounded-full hover:bg-white/50 transition"></div>
@@ -221,7 +221,7 @@
 
                     <div class="bg-white/5 p-3 rounded-2xl border border-white/5 flex items-center gap-4">
                         <i class="fa-solid fa-volume-low text-gray-400"></i>
-                        <input type="range" min="0" max="100" value="28" class="w-full accent-[#e0c278] h-1.5 bg-black/50 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('vol-val').innerText = this.value + '%'">
+                        <input type="range" min="0" max="100" value="28" title="Volume Slider" aria-label="Volume Slider" class="w-full accent-[#e0c278] h-1.5 bg-black/50 rounded-lg appearance-none cursor-pointer" oninput="document.getElementById('vol-val').innerText = this.value + '%'">
                         <span id="vol-val" class="text-xs font-bold text-white w-8 text-right">28%</span>
                     </div>
 
@@ -247,16 +247,16 @@
                     <div class="bg-white/5 p-3.5 rounded-2xl border border-white/5 flex flex-col gap-2.5 relative overflow-hidden">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-3">
-                                <img src="https://images.unsplash.com/photo-1614165936126-22485f52ce8a?q=80&w=100&auto=format&fit=crop" class="w-10 h-10 rounded-lg shadow object-cover border border-white/10">
+                                <img src="https://images.unsplash.com/photo-1614165936126-22485f52ce8a?q=80&w=100&auto=format&fit=crop" alt="Album Cover" title="Album Cover" class="w-10 h-10 rounded-lg shadow object-cover border border-white/10">
                                 <div>
                                     <h4 class="text-xs font-bold text-white leading-tight">lofi beats to study and relax</h4>
                                     <p class="text-[10px] text-gray-400 mt-0.5">lofi radio</p>
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 mr-1">
-                                <button class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-backward-step text-xs"></i></button>
-                                <button id="btn-play-pause" onclick="togglePlay()" class="w-9 h-9 rounded-full bg-[#e0c278] hover:scale-105 flex items-center justify-center text-[#2d2d2d] transition shadow cursor-pointer"><i class="fa-solid fa-pause text-xs"></i></button>
-                                <button class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-forward-step text-xs"></i></button>
+                                <button title="Previous Track" aria-label="Previous Track" class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-backward-step text-xs"></i></button>
+                                <button id="btn-play-pause" onclick="togglePlay()" title="Play or Pause" aria-label="Play or Pause" class="w-9 h-9 rounded-full bg-[#e0c278] hover:scale-105 flex items-center justify-center text-[#2d2d2d] transition shadow cursor-pointer"><i class="fa-solid fa-pause text-xs"></i></button>
+                                <button title="Next Track" aria-label="Next Track" class="w-7 h-7 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition cursor-pointer"><i class="fa-solid fa-forward-step text-xs"></i></button>
                             </div>
                         </div>
                     </div>
@@ -293,8 +293,8 @@
                                 <div class="flex items-center space-x-2">
                                     <span class="text-[9px] text-gray-500 font-mono">Sep 28 – Oct 4</span>
                                     <div class="flex space-x-1">
-                                        <button onclick="shiftWeek(-1)" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
-                                        <button onclick="shiftWeek(1)" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
+                                        <button onclick="shiftWeek(-1)" title="Previous Week" aria-label="Previous Week" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <button onclick="shiftWeek(1)" title="Next Week" aria-label="Next Week" class="w-5 h-5 bg-white/5 hover:bg-white/10 rounded flex items-center justify-center text-[9px] text-gray-300 cursor-pointer"><i class="fa-solid fa-chevron-right"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -354,7 +354,7 @@
 
                         <div class="flex items-center gap-1.5 bg-[#202020] rounded-xl p-1.5 border border-white/5">
                             <input type="text" id="new-todo-input" placeholder="Add task for this date..." class="w-full bg-transparent text-[10px] text-white px-2 focus:outline-none" onkeypress="handleTodoKey(event)">
-                            <button onclick="addTodo()" class="w-6 h-6 rounded-lg bg-[#e0c278] text-[#2d2d2d] flex items-center justify-center text-xs shrink-0 cursor-pointer"><i class="fa-solid fa-arrow-right text-[10px]"></i></button>
+                            <button onclick="addTodo()" title="Add Task" aria-label="Add Task" class="w-6 h-6 rounded-lg bg-[#e0c278] text-[#2d2d2d] flex items-center justify-center text-xs shrink-0 cursor-pointer"><i class="fa-solid fa-arrow-right text-[10px]"></i></button>
                         </div>
                     </div>
 
@@ -390,7 +390,7 @@
                                     </div>
                                     <p class="text-[10px] text-gray-300 leading-snug">Hey Mainak! Are we still on for coffee at 10 AM?</p>
                                 </div>
-                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                <button onclick="dismissNotification(this)" title="Dismiss Notification" aria-label="Dismiss Notification" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
@@ -406,7 +406,7 @@
                                     </div>
                                     <p class="text-[10px] text-gray-300 leading-snug">@openai posted a new update regarding Gemini 2.5 flash speed.</p>
                                 </div>
-                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                <button onclick="dismissNotification(this)" title="Dismiss Notification" aria-label="Dismiss Notification" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
@@ -422,7 +422,7 @@
                                     </div>
                                     <p class="text-[10px] text-gray-300 leading-snug">Cumulative update successfully installed. Restart required.</p>
                                 </div>
-                                <button onclick="dismissNotification(this)" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
+                                <button onclick="dismissNotification(this)" title="Dismiss Notification" aria-label="Dismiss Notification" class="absolute right-2 top-2 w-4 h-4 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-[9px] opacity-0 group-hover:opacity-100 transition cursor-pointer">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </div>
@@ -443,7 +443,7 @@
                                 <span id="perf-cpu-val" class="text-[10px] font-mono font-bold text-blue-400">24%</span>
                             </div>
                             <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div id="perf-cpu-bar" class="bg-blue-400 h-full rounded-full transition-all duration-500" style="width: 24%"></div>
+                                <div id="perf-cpu-bar" class="bg-blue-400 h-full rounded-full transition-all duration-500 w-[24%]"></div>
                             </div>
                         </div>
 
@@ -454,7 +454,7 @@
                                 <span id="perf-ram-val" class="text-[10px] font-mono font-bold text-jarvis-accent">6.8 / 16 GB</span>
                             </div>
                             <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div id="perf-ram-bar" class="bg-jarvis-accent h-full rounded-full transition-all duration-500" style="width: 42%"></div>
+                                <div id="perf-ram-bar" class="bg-jarvis-accent h-full rounded-full transition-all duration-500 w-[42%]"></div>
                             </div>
                         </div>
 
@@ -465,7 +465,7 @@
                                 <span id="perf-disk-val" class="text-[10px] font-mono font-bold text-green-400">142 GB free</span>
                             </div>
                             <div class="w-full bg-white/10 h-1.5 rounded-full overflow-hidden">
-                                <div id="perf-disk-bar" class="bg-green-400 h-full rounded-full transition-all duration-500" style="width: 65%"></div>
+                                <div id="perf-disk-bar" class="bg-green-400 h-full rounded-full transition-all duration-500 w-[65%]"></div>
                             </div>
                         </div>
                     </div>
@@ -538,12 +538,12 @@
                     </div>
 
                     <div class="relative w-full max-w-[500px] h-[190px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl mb-3">
-                        <img id="main-preview-img" src="https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop" class="w-full h-full object-cover">
+                        <img id="main-preview-img" src="https://images.unsplash.com/photo-1506744012022-38b8131846b4?q=80&w=2560&auto=format&fit=crop" alt="Active Windows Wallpaper Preview" title="Active Windows Wallpaper Preview" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-4">
                             <span class="text-xs font-semibold text-white">Active Windows Wallpaper</span>
                         </div>
-                        <button onclick="scrollWallpaperCarousel(-1)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                        <button onclick="scrollWallpaperCarousel(1)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                        <button onclick="scrollWallpaperCarousel(-1)" title="Previous Wallpaper" aria-label="Previous Wallpaper" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <button onclick="scrollWallpaperCarousel(1)" title="Next Wallpaper" aria-label="Next Wallpaper" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 hover:bg-black text-white flex items-center justify-center cursor-pointer transition"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                     </div>
 
                     <div class="flex items-center gap-3 w-full max-w-[500px]">
@@ -592,12 +592,12 @@
             </div>
             
             <div class="flex items-center space-x-3">
-                <select onchange="switchAIModel(this.value)" class="bg-[#202020] text-xs text-gray-200 border border-white/10 rounded-xl px-3 py-1.5 focus:outline-none cursor-pointer">
+                <select onchange="switchAIModel(this.value)" title="Select AI Model" aria-label="Select AI Model" class="bg-[#202020] text-xs text-gray-200 border border-white/10 rounded-xl px-3 py-1.5 focus:outline-none cursor-pointer">
                     <option value="gemini">Google Gemini 2.5</option>
                     <option value="claude">Claude 3.5 Sonnet</option>
                     <option value="gpt">GPT-4o OpenAI</option>
                 </select>
-                <button onclick="toggleAIAssistant()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer" title="Close">
+                <button onclick="toggleAIAssistant()" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center transition cursor-pointer" title="Close" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
@@ -613,7 +613,7 @@
         </div>
 
         <div class="p-4 bg-[#141414] border-t border-white/10 flex items-center space-x-3">
-            <button onclick="triggerVoiceListen()" class="w-10 h-10 rounded-2xl bg-white/5 hover:bg-white/10 text-jarvis-accent border border-white/5 flex items-center justify-center transition cursor-pointer shrink-0"><i class="fa-solid fa-microphone"></i></button>
+            <button onclick="triggerVoiceListen()" title="Voice Input" aria-label="Voice Input" class="w-10 h-10 rounded-2xl bg-white/5 hover:bg-white/10 text-jarvis-accent border border-white/5 flex items-center justify-center transition cursor-pointer shrink-0"><i class="fa-solid fa-microphone"></i></button>
             <input type="text" id="ai-chat-input" placeholder="Type a command (e.g., 'Open Chrome', 'Play Spotify', 'Mute volume')..." class="bg-[#1f1f1f] border border-white/10 rounded-2xl px-4 py-2.5 text-xs text-white flex-1 focus:outline-none focus:border-jarvis-accent/50 transition" onkeypress="handleAIChatKey(event)">
             <button onclick="sendAIChatCommand()" class="bg-jarvis-accent hover:brightness-110 text-[#2d2d2d] px-5 py-2.5 rounded-2xl text-xs font-bold transition shadow cursor-pointer">Send</button>
         </div>
@@ -674,6 +674,15 @@
             const isClickInside = mockupDropdown.contains(event.target) || event.target.closest('button[onclick="toggleMockupMenu()"]');
             if (!isClickInside && !mockupDropdown.classList.contains('hidden')) {
                 mockupDropdown.classList.add('hidden');
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.code === 'Space') {
+                event.preventDefault();
+                toggleAIAssistant();
+            } else if (event.key === 'Escape') {
+                hideAll();
             }
         });
 

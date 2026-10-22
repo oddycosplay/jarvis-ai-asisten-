@@ -1,0 +1,30 @@
+# Node Dependencies
+node_modules/
+package-lock.json
+
+# Build & Release Artifacts
+dist/
+dist-artifacts/
+build/
+bin/
+*.exe
+!assets/*.ico
+
+# Rust Compilation Targets
+jarvis-rust/target/
+
+# Logs & Temporary Files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & Secrets
+.env
+.env.local
+
+# Operating System & Editor Metadata
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

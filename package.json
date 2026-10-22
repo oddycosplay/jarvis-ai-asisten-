@@ -1,0 +1,73 @@
+{
+  "name": "jarvis-os-ui",
+  "version": "1.0.2",
+  "description": "JARVIS AI Assistant & OS UI Dashboard - Next-Gen Glassmorphic Dynamic Island Desktop Interface for Windows 10/11",
+  "main": "main.js",
+  "author": "oddycosplay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oddycosplay/jarvis-ai-asisten-.git"
+  },
+  "bugs": {
+    "url": "https://github.com/oddycosplay/jarvis-ai-asisten-/issues"
+  },
+  "homepage": "https://github.com/oddycosplay/jarvis-ai-asisten-#readme",
+  "keywords": [
+    "jarvis",
+    "ai-assistant",
+    "dynamic-island",
+    "electron",
+    "desktop-app",
+    "glassmorphism",
+    "tailwind-css",
+    "windows-11",
+    "productivity"
+  ],
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron .",
+    "build": "echo \"Static web mockup. No compile step required.\"",
+    "dist": "electron-builder --win",
+    "dist:portable": "electron-builder --win portable",
+    "dist:dir": "electron-builder --win --dir",
+    "release": "electron-builder --win --publish always"
+  },
+  "build": {
+    "appId": "com.oddycosplay.jarvisos",
+    "productName": "JARVIS OS",
+    "artifactName": "JARVIS-OS-${version}-${arch}.${ext}",
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "jarvis_ui_mockup.html",
+      "assets/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "requestedExecutionLevel": "asInvoker",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    },
+    "portable": {
+      "artifactName": "JARVIS-OS-Portable.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.0"
+  }
+}
