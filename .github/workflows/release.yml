@@ -29,9 +29,9 @@ jobs:
         run: npm ci
 
       - name: Ensure assets directory
+        shell: bash
         run: |
           mkdir -p assets
-          ls -la assets || true
 
       - name: Build (no-op for static mockup)
         run: npm run build
