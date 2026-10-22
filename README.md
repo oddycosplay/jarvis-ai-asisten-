@@ -3,7 +3,8 @@
 <div align="center">
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011%20(x64)-blue.svg)
-![Version](https://img.shields.io/badge/version-1.0.3-gold.svg)
+![Version](https://img.shields.io/badge/version-1.0.4-gold.svg)
+![GitHub Packages](https://img.shields.io/badge/GitHub%20Packages-%40oddycosplay%2Fjarvis--os--ui-orange.svg?logo=github)
 ![Electron](https://img.shields.io/badge/Electron-30.5.1-47848F.svg?logo=electron&logoColor=white)
 ![Node](https://img.shields.io/badge/Node.js-20%2B-339933.svg?logo=node.js&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-CDN-38B2AC.svg?logo=tailwind-css&logoColor=white)
@@ -11,7 +12,7 @@
 
 **Next-Generation Windows Desktop Experience featuring Adaptive Dynamic Island, Glassmorphic UI, and Multi-Model AI Assistant.**
 
-[Unduh Rilis Terbaru](https://github.com/oddycosplay/jarvis-ai-asisten-/releases) • [Laporkan Masalah](https://github.com/oddycosplay/jarvis-ai-asisten-/issues) • [Panduan Instalasi](#-panduan-instalasi--penggunaan)
+[Unduh Rilis Terbaru](https://github.com/oddycosplay/jarvis-ai-asisten-/releases) • [GitHub Packages](https://github.com/users/oddycosplay/packages?repo_name=jarvis-ai-asisten-) • [Laporkan Masalah](https://github.com/oddycosplay/jarvis-ai-asisten-/issues) • [Panduan Instalasi](#-panduan-instalasi--penggunaan)
 
 </div>
 
@@ -125,18 +126,33 @@ graph TD
 ## 🚀 Panduan Instalasi & Penggunaan
 
 ### 1. Prasyarat Lingkungan
+
 Pastikan komputer Anda telah terinstal:
+
 * [Node.js](https://nodejs.org/) (Versi 20.x atau terbaru)
 * [Git](https://git-scm.com/)
 
-### 2. Kloning Repositori
+### 2. Instalasi via GitHub Packages (NPM)
+
+Paket antarmuka dan modul desktop ini diterbitkan secara publik di [GitHub Packages Registry](https://github.com/users/oddycosplay/packages?repo_name=jarvis-ai-asisten-). Anda dapat menginstalnya ke proyek Node.js / Electron Anda:
+
+#### Langkah 1: Konfigurasi Registry (`.npmrc`)
+
+```ini
+@oddycosplay:registry=https://npm.pkg.github.com
+```
+
+#### Langkah 2: Instal Paket
+
+```bash
+npm install @oddycosplay/jarvis-os-ui
+```
+
+### 3. Kloning Repositori (Manual / Source Code)
+
 ```bash
 git clone https://github.com/oddycosplay/jarvis-ai-asisten-.git
 cd jarvis-ai-asisten-
-```
-
-### 3. Menginstal Dependensi
-```bash
 npm install
 ```
 
@@ -166,7 +182,8 @@ npm run dist:dir
 
 ### Hasil Artefak Build:
 * **Standalone Portable Executable:** `dist/JARVIS-OS-Portable.exe` *(Dapat langsung dijalankan tanpa proses instalasi).*
-* **Setup Installer:** `dist/JARVIS-OS-1.0.2-x64.exe` *(Wizard instalasi NSIS untuk pemasangan ke direktori Program Files).*
+* **Setup Installer:** `dist/JARVIS-OS-1.0.4-x64.exe` *(Wizard instalasi NSIS untuk pemasangan ke direktori Program Files).*
+
 * **Unpacked Folder:** `dist/win-unpacked/JARVIS OS.exe`
 
 ---

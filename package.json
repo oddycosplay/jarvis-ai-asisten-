@@ -1,10 +1,22 @@
 {
-  "name": "jarvis-os-ui",
-  "version": "1.0.3",
+  "name": "@oddycosplay/jarvis-os-ui",
+  "version": "1.0.4",
   "description": "JARVIS AI Assistant & OS UI Dashboard - Next-Gen Glassmorphic Dynamic Island Desktop Interface for Windows 10/11",
   "main": "main.js",
   "author": "oddycosplay",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "files": [
+    "main.js",
+    "preload.js",
+    "jarvis_ui_mockup.html",
+    "assets/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/oddycosplay/jarvis-ai-asisten-.git"
