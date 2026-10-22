@@ -54,6 +54,33 @@ Aplikasi ini menyatukan pemantauan sistem perangkat keras (*CPU, RAM, SSD*), pus
 
 ---
 
+## 📸 Tangkapan Layar Pengujian Aplikasi (UI & Testing Screenshots)
+
+Pengujian fungsional dan visual dilakukan secara langsung (*live execution*) pada sistem desktop Windows 11. Berikut adalah bukti tangkapan layar antarmuka:
+
+### 1. Dynamic Island: Collapsed vs Contextual Media Mode
+
+| Mode Mini Mascot (Collapsed) | Mode Pemutar Media Lo-Fi (Contextual) |
+| :---: | :---: |
+| ![Mini Dynamic Island](./assets/screenshots/01_dynamic_island_collapsed.png) | ![Contextual Media Player](./assets/screenshots/02_contextual_island_media.png) |
+| *Kapsul melayang adaptif di bagian tengah atas layar* | *Transformasi pemutar audio dengan timeline & kontrol playback* |
+
+### 2. Expanded Utility Panel: Quick Controls & Hardware Telemetry
+
+| Quick Controls (Wi-Fi, Audio, Night Light, Volume) | Hardware Telemetry & Windows Notifications |
+| :---: | :---: |
+| ![Expanded Quick Controls](./assets/screenshots/03_expanded_panel_controls.png) | ![Hardware Telemetry & Stats](./assets/screenshots/04_expanded_panel_hardware_telemetry.png) |
+| *Modul saklar sistem, pengaturan tema, dan slider volume* | *Pemantauan CPU, RAM, SSD aktual & pusat notifikasi* |
+
+### 3. Application Launcher & JARVIS AI Assistant Modal
+
+| Windows Application Launcher | Multi-Model AI Assistant (Gemini / Claude / GPT) |
+| :---: | :---: |
+| ![App Launcher Directory](./assets/screenshots/05_expanded_panel_apps.png) | ![JARVIS AI Assistant Modal](./assets/screenshots/06_jarvis_ai_assistant_modal.png) |
+| *Daftar peluncur aplikasi terintegrasi dengan filter kategori* | *Asisten AI multimodal dengan selector model & voice command* |
+
+---
+
 ## 🏗️ Arsitektur Sistem (System Architecture)
 
 Aplikasi dibangun dengan arsitektur dua lapisan (*layered architecture*) yang memisahkan proses desktop native dengan lapisan presentasi antarmuka web:
@@ -203,14 +230,37 @@ npm run dist:dir
 Repositori ini telah dilengkapi dengan automasi workflow GitHub Actions pada `.github/workflows/release.yml`. Ketika Anda membuat dan mendorong Git Tag rilis baru:
 
 ```bash
-git tag v1.0.2
-git push origin v1.0.2
+git tag v1.0.4
+git push origin v1.0.4
 ```
 
 Sistem GitHub Actions pada server Windows Runner akan secara otomatis:
 1. Mengunduh dependensi dan memverifikasi integritas kode.
 2. Mengemas aplikasi menggunakan `electron-builder` ke format installer dan portable.
 3. Menerbitkan artefak `.exe` langsung ke halaman [GitHub Releases](https://github.com/oddycosplay/jarvis-ai-asisten-/releases).
+4. Menerbitkan modul ke [GitHub Packages Registry](https://github.com/users/oddycosplay/packages?repo_name=jarvis-ai-asisten-).
+
+---
+
+## ☕ Dukungan & Donasi (Support & Donate)
+
+Jika proyek **JARVIS OS UI Dashboard** ini bermanfaat bagi Anda dan membantu pengembangan aplikasi Anda, Anda dapat memberikan dukungan langsung kepada pengembang:
+
+<div align="center">
+
+[![Instagram](https://img.shields.io/badge/Instagram-%40oddycosplay-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/oddycosplay)
+[![Saweria](https://img.shields.io/badge/Saweria-Dukung%20Karya-FA8C16?style=for-the-badge&logo=cash-app&logoColor=white)](https://saweria.co/oddycosplay)
+[![Trakteer](https://img.shields.io/badge/Trakteer-Traktir%20Kopi-BE1E2D?style=for-the-badge&logo=kofi&logoColor=white)](https://trakteer.id/oddycosplay)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub%20Sponsors-EA4AAA?style=for-the-badge&logo=github&logoColor=white)](https://github.com/sponsors/oddycosplay)
+
+</div>
+
+* 📷 **Instagram:** [@oddycosplay](https://instagram.com/oddycosplay)
+* 🌐 **Website / Portfolio:** [oddyrizki.my.id](https://oddyrizki.my.id)
+* ☕ **Donasi & Traktir Kopi:**
+  * [Saweria oddycosplay](https://saweria.co/oddycosplay)
+  * [Trakteer oddycosplay](https://trakteer.id/oddycosplay)
+  * [GitHub Sponsors](https://github.com/sponsors/oddycosplay)
 
 ---
 

@@ -152,7 +152,7 @@
         </div>
     </div>
 
-    <div id="expanded-panel" class="hidden absolute top-0 left-1/2 -translate-x-1/2 w-[85%] max-w-[850px] glass-panel rounded-b-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-[60] flex-col pb-5 pt-3" onclick="event.stopPropagation()">
+    <div id="expanded-panel" class="hidden absolute top-0 left-1/2 -translate-x-1/2 w-[85%] max-w-[850px] glass-panel rounded-b-[32px] shadow-[0_30px_60px_rgba(0,0,0,0.7)] z-[60] flex flex-col pb-5 pt-3" onclick="event.stopPropagation()">
         
         <nav class="flex justify-center items-center space-x-4 py-2 text-xs font-semibold text-gray-400 tracking-wide relative">
             <button onclick="switchTab('controls')" id="tab-controls" class="hover:text-white transition px-3.5 py-1.5 rounded-full cursor-pointer">Controls</button>
@@ -718,8 +718,14 @@
             }
         }
 
+        let closePanelTimeout = null;
+
         function toggleExpandedPanel() {
             if(expandedPanel && miniIsland) {
+                if (closePanelTimeout) {
+                    clearTimeout(closePanelTimeout);
+                    closePanelTimeout = null;
+                }
                 miniIsland.classList.add('-translate-y-full', 'opacity-0');
                 expandedPanel.classList.remove('hidden', 'animate-slide-up-panel');
                 expandedPanel.classList.add('animate-slide-down-panel');
@@ -729,11 +735,13 @@
         
         function closeExpandedPanel() {
             if(expandedPanel && miniIsland) {
+                if (closePanelTimeout) clearTimeout(closePanelTimeout);
                 expandedPanel.classList.remove('animate-slide-down-panel');
                 expandedPanel.classList.add('animate-slide-up-panel');
-                setTimeout(() => {
+                closePanelTimeout = setTimeout(() => {
                     expandedPanel.classList.add('hidden');
                     miniIsland.classList.remove('-translate-y-full', 'opacity-0');
+                    closePanelTimeout = null;
                 }, 300);
             }
         }
@@ -766,8 +774,28 @@
             });
         }
 
+        function openPanelTab(tabName) {
+            if (closePanelTimeout) {
+                clearTimeout(closePanelTimeout);
+                closePanelTimeout = null;
+            }
+            if (contextPopup) contextPopup.classList.add('hidden');
+            if (mockupDropdown) mockupDropdown.classList.add('hidden');
+            if (aiAssistantModal) aiAssistantModal.classList.add('hidden');
+            if (miniIsland) miniIsland.classList.add('-translate-y-full', 'opacity-0');
+            if (expandedPanel) {
+                expandedPanel.classList.remove('hidden', 'animate-slide-up-panel');
+                expandedPanel.style.animation = 'none';
+                expandedPanel.style.transform = 'translateX(-50%) translateY(0)';
+                expandedPanel.style.opacity = '1';
+            }
+            switchTab(tabName);
+        }
+
         function toggleIslandState(state) {
-            hideAll();
+            if (contextPopup) contextPopup.classList.add('hidden');
+            if (mockupDropdown) mockupDropdown.classList.add('hidden');
+            if (aiAssistantModal) aiAssistantModal.classList.add('hidden');
             if (state === 'collapsed') closeExpandedPanel();
             else if (state === 'context' && contextPopup) {
                 closeExpandedPanel();
