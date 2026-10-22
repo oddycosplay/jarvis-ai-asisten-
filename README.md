@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011%20(x64)-blue.svg)
-![Version](https://img.shields.io/badge/version-1.0.2-gold.svg)
+![Version](https://img.shields.io/badge/version-1.0.3-gold.svg)
 ![Electron](https://img.shields.io/badge/Electron-30.5.1-47848F.svg?logo=electron&logoColor=white)
 ![Node](https://img.shields.io/badge/Node.js-20%2B-339933.svg?logo=node.js&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-CDN-38B2AC.svg?logo=tailwind-css&logoColor=white)
