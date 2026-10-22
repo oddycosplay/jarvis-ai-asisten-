@@ -1,6 +1,8 @@
-# JARVIS AI Assistant & OS UI Dashboard
-
 <div align="center">
+
+<img src="./assets/logo.png" alt="JARVIS AI OS Assistant Logo" width="180" />
+
+# JARVIS AI Assistant & OS UI Dashboard
 
 ![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011%20(x64)-blue.svg)
 ![Version](https://img.shields.io/badge/version-1.0.4-gold.svg)

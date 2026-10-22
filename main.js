@@ -5,9 +5,12 @@ const fs = require('fs');
 let mainWindow = null;
 
 function resolveIcon() {
-  const iconPath = path.join(__dirname, 'assets', 'hantuf-logo.ico');
-  return fs.existsSync(iconPath) ? iconPath : undefined;
+  const icoPath = path.join(__dirname, 'assets', 'hantuf-logo.ico');
+  if (fs.existsSync(icoPath)) return icoPath;
+  const pngPath = path.join(__dirname, 'assets', 'logo.png');
+  return fs.existsSync(pngPath) ? pngPath : undefined;
 }
+
 
 function createWindow() {
   mainWindow = new BrowserWindow({
