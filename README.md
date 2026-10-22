@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033 -->
 <div align="center">
 
 <img src="./assets/logo.png" alt="JARVIS AI OS Assistant Logo" width="180" />
@@ -31,26 +32,29 @@ Aplikasi ini menyatukan pemantauan sistem perangkat keras (*CPU, RAM, SSD*), pus
 ## ✨ Fitur Unggulan (Core Features)
 
 ### 1. Transformasi 3-Mode Dynamic Island
+
 * **Compact Island (Mini Mascot):** Kapsul mengambang minimalis di bagian tengah atas layar yang berfungsi sebagai gerbang interaksi cepat tanpa mengganggu produktivitas desktop.
 * **Contextual Island (Media Player):** Bertransformasi otomatis menjadi widget pemutar audio/lo-fi interaktif dengan tampilan cover art, timeline progress bar, dan kontrol playback.
 * **Expanded Utility Panel:** Panel dashboard lengkap yang meluncur turun dari Dynamic Island saat diklik, memberikan akses ke 7 modul sistem utama.
 
 ### 2. 7 Modul Dashboard Terintegrasi
+
 1. **Quick Controls:** Saklar interaktif untuk Wi-Fi, Bluetooth, Audio Output, Night Light, Dark Mode, serta slider volume real-time.
 2. **Today & Productivity:** Jam digital adaptif dengan 3 tema warna (Default Dark, Gold Accent, Neon Glass), pengatur waktu / Pomodoro timer, kalender mingguan, dan To-Do list tersinkronisasi per tanggal.
 3. **Notification & Performance Monitor:**
-   - **Windows OS Notifications:** Simulasi notifikasi sistem nyata (WhatsApp, media sosial, pembaruan OS) yang dapat dihapus perorangan atau dibersihkan sekaligus (*Clear All*).
-   - **Hardware Telemetry:** Pemantauan langsung persentase CPU Usage, RAM Memory (aktual vs 16GB), dan ruang bebas SSD Disk.
+   * **Windows OS Notifications:** Simulasi notifikasi sistem nyata (WhatsApp, media sosial, pembaruan OS) yang dapat dihapus perorangan atau dibersihkan sekaligus (*Clear All*).
+   * **Hardware Telemetry:** Pemantauan langsung persentase CPU Usage, RAM Memory (aktual vs 16GB), dan ruang bebas SSD Disk.
 4. **Clipboard Manager:** Riwayat klip dengan visualisasi split-view, pengelompokan jenis data (*Text, Link, Command*), dan metadata ukuran karakter & waktu.
 5. **App Launcher:** Direktori aplikasi desktop (Microsoft Office, Coding Tools, Media, Browser) dengan fitur pencarian dan filter kategori instan.
 6. **Wallpaper Engine:** Preset latar belakang resolusi tinggi, integrasi folder Windows, dan input generator prompt AI.
 7. **Power Controls:** Tombol aksi sistem cepat untuk *Lock*, *Sleep*, *Restart*, dan *Shut Down*.
 
 ### 3. JARVIS Multi-Model AI Assistant
+
 * Jendela modal cerdas dengan pilihan model AI terkemuka:
-  - **Google Gemini 2.5 Flash** (Default)
-  - **Claude 3.5 Sonnet**
-  - **GPT-4o OpenAI**
+  * **Google Gemini 2.5 Flash** (Default)
+  * **Claude 3.5 Sonnet**
+  * **GPT-4o OpenAI**
 * Mendukung input teks dan perintah suara (*voice listening*).
 * Akses instan menggunakan pintasan keyboard global: `Ctrl + Space` (Buka/Tutup Asisten) dan `Escape` (Tutup Semua Overlay).
 
@@ -123,7 +127,8 @@ graph TD
     JSState --> Task
 ```
 
-### Penjelasan Komponen Arsitektur:
+### Penjelasan Komponen Arsitektur
+
 1. **Electron Main Process (`main.js`):** Mengelola siklus hidup jendela desktop, ukuran resolusi dasar (1500x980 dengan minimum 1200x760), `SingleInstanceLock` guna mencegah duplikasi proses, dan menyembunyikan menu bar bawaan Windows.
 2. **Secure Context Isolation (`preload.js`):** Mengamankan komunikasi antara sistem operasi dan lapisan web dengan mengaktifkan `contextIsolation` dan menonaktifkan `nodeIntegration` langsung pada renderer.
 3. **Renderer Layer (`jarvis_ui_mockup.html`):** Seluruh antarmuka dikembangkan dengan pendekatan *Single-File High-Performance Architecture* menggunakan utility CSS Tailwind, filter glassmorphism CSS `-webkit-backdrop-filter`, aksen warna Jarivs Gold (`#e0c278`), dan event listener DOM modular.
@@ -186,10 +191,13 @@ npm install
 ```
 
 ### 4. Menjalankan Mode Pengembang (Development)
+
 Untuk menjalankan aplikasi secara langsung di desktop Anda:
+
 ```bash
 npm start
 ```
+
 *(Atau menggunakan pintasan `npm run dev`)*
 
 ---
@@ -209,10 +217,10 @@ npm run dist:portable
 npm run dist:dir
 ```
 
-### Hasil Artefak Build:
+### Hasil Artefak Build
+
 * **Standalone Portable Executable:** `dist/JARVIS-OS-Portable.exe` *(Dapat langsung dijalankan tanpa proses instalasi).*
 * **Setup Installer:** `dist/JARVIS-OS-1.0.4-x64.exe` *(Wizard instalasi NSIS untuk pemasangan ke direktori Program Files).*
-
 * **Unpacked Folder:** `dist/win-unpacked/JARVIS OS.exe`
 
 ---
@@ -237,6 +245,7 @@ git push origin v1.0.4
 ```
 
 Sistem GitHub Actions pada server Windows Runner akan secara otomatis:
+
 1. Mengunduh dependensi dan memverifikasi integritas kode.
 2. Mengemas aplikasi menggunakan `electron-builder` ke format installer dan portable.
 3. Menerbitkan artefak `.exe` langsung ke halaman [GitHub Releases](https://github.com/oddycosplay/jarvis-ai-asisten-/releases).
@@ -273,5 +282,5 @@ Didistribusikan di bawah lisensi **MIT**. Lihat file [`LICENSE`](./LICENSE) untu
 ---
 
 <div align="center">
-Dikembangkan dengan ❤️ oleh <b>oddycosplay</b>
+Dikembangkan dengan ❤️ oleh **oddycosplay**
 </div>
