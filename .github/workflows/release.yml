@@ -6,6 +6,9 @@ on:
       - 'v*'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-win:
     runs-on: windows-latest
@@ -36,20 +39,23 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
-          # Build x64 and produce installer + portable by default
           npx electron-builder --win --x64
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: jarvis-os-windows-artifacts
-          path: dist/**/*
+          path: |
+            dist/*.exe
+            dist/*.blockmap
           retention-days: 7
 
   publish-release:
     needs: build-win
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v4
@@ -57,19 +63,13 @@ jobs:
           name: jarvis-os-windows-artifacts
           path: dist-artifacts
 
-      - name: Create GitHub Release (if not created)
-        uses: softprops/action-gh-release@v1
+      - name: Publish Release to GitHub
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Upload artifacts to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url || format('https://uploads.github.com/repos/{0}/{1}/releases/{2}/assets', github.repository_owner, github.repository, github.ref_name) }}
-          asset_path: dist/**/*
-          asset_name: ${{ github.ref_name }}-windows-artifacts.zip
-          asset_content_type: application/zip
+          name: "JARVIS OS ${{ github.ref_name }} - Adaptive Dynamic Island & AI Assistant"
+          generate_release_notes: true
+          files: |
+            dist-artifacts/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
